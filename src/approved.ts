@@ -25,10 +25,10 @@ export async function approved(token: string): Promise<boolean> {
 
   core.debug(`reviews: ${reviews.length}`)
 
-  if (reviews.length == 0) {
-    core.info('There is no reviewers.')
-    return false
-  }
+  // if (reviews.length == 0) {
+  //   core.info('There is no reviewers.')
+  //   return false
+  // }
 
   let latestReviews = reviews
     .reverse()
