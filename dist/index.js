@@ -57,10 +57,10 @@ function approved(token) {
         const { data: reviews } = yield octokit.rest.pulls.listReviews(Object.assign(Object.assign({}, github.context.repo), { pull_number: pr.number, per_page: 100 // NOTE: seems not over 100
          }));
         core.debug(`reviews: ${reviews.length}`);
-        if (reviews.length == 0) {
-            core.info('There is no reviewers.');
-            return false;
-        }
+        // if (reviews.length == 0) {
+        //   core.info('There is no reviewers.')
+        //   return false
+        // }
         let latestReviews = reviews
             .reverse()
             .filter(review => { var _a; return ((_a = review.user) === null || _a === void 0 ? void 0 : _a.id) != pr.user.id; })
