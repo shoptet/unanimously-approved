@@ -43,8 +43,9 @@ exports.approved = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 function approved(token) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const { pull_request: pr } = github.context.eventName == 'pull_request'
+        const { pull_request: pr } = github.context.eventName === 'pull_request'
             ? github.context.payload
             : github.context.payload;
         core.debug(`PR#${pr.number}`);
@@ -57,23 +58,22 @@ function approved(token) {
         const { data: reviews } = yield octokit.rest.pulls.listReviews(Object.assign(Object.assign({}, github.context.repo), { pull_number: pr.number, per_page: 100 // NOTE: seems not over 100
          }));
         core.debug(`reviews: ${reviews.length}`);
-        if (reviews.length == 0) {
+        if (reviews.length === 0) {
             core.info('There is no reviewers.');
             return false;
         }
-        let latestReviews = reviews
+        const latestReviews = reviews
             .reverse()
-            .filter(review => { var _a; return ((_a = review.user) === null || _a === void 0 ? void 0 : _a.id) != pr.user.id; })
-            .filter(review => review.state.toLowerCase() != 'commented')
+            .filter(review => { var _a; return ((_a = review.user) === null || _a === void 0 ? void 0 : _a.id) !== pr.user.id; })
+            .filter(review => review.state.toLowerCase() !== 'commented')
             .filter((review, index, array) => {
             // unique
             return array.findIndex(x => { var _a, _b; return ((_a = review.user) === null || _a === void 0 ? void 0 : _a.id) === ((_b = x.user) === null || _b === void 0 ? void 0 : _b.id); }) === index;
         });
-        latestReviews.forEach(review => {
-            var _a;
+        for (const review of latestReviews) {
             core.debug(`${(_a = review.user) === null || _a === void 0 ? void 0 : _a.login} is ${review.state.toLowerCase()}.`);
-        });
-        if (!latestReviews.every(review => review.state.toLowerCase() == 'approved')) {
+        }
+        if (!latestReviews.every(review => review.state.toLowerCase() === 'approved')) {
             core.info('Some reviewers do not approve.');
             return false;
         }

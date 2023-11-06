@@ -4,7 +4,7 @@ import {PullRequestEvent, PullRequestReviewEvent} from '@octokit/webhooks-types'
 
 export async function approved(token: string): Promise<boolean> {
   const {pull_request: pr} =
-    github.context.eventName == 'pull_request'
+    github.context.eventName === 'pull_request'
       ? (github.context.payload as PullRequestEvent)
       : (github.context.payload as PullRequestReviewEvent)
 
@@ -25,25 +25,25 @@ export async function approved(token: string): Promise<boolean> {
 
   core.debug(`reviews: ${reviews.length}`)
 
-  if (reviews.length == 0) {
+  if (reviews.length === 0) {
     core.info('There is no reviewers.')
     return false
   }
 
-  let latestReviews = reviews
+  const latestReviews = reviews
     .reverse()
-    .filter(review => review.user?.id != pr.user.id)
-    .filter(review => review.state.toLowerCase() != 'commented')
+    .filter(review => review.user?.id !== pr.user.id)
+    .filter(review => review.state.toLowerCase() !== 'commented')
     .filter((review, index, array) => {
       // unique
       return array.findIndex(x => review.user?.id === x.user?.id) === index
     })
 
-  latestReviews.forEach(review => {
+  for (const review of latestReviews) {
     core.debug(`${review.user?.login} is ${review.state.toLowerCase()}.`)
-  })
+  }
 
-  if (!latestReviews.every(review => review.state.toLowerCase() == 'approved')) {
+  if (!latestReviews.every(review => review.state.toLowerCase() === 'approved')) {
     core.info('Some reviewers do not approve.')
     return false
   }

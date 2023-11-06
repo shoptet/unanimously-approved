@@ -2,6 +2,8 @@
 
 Approved by all reviewers.
 
+Forked from: https://github.com/snow-actions/unanimously-approved
+
 ## Usage
 
 Create `.github/workflows/unanimously-approved.yml`.
@@ -53,3 +55,26 @@ See [ci.yml](.github/workflows/ci.yml)
 
 Optional.  
 See [action.yml](action.yml)
+
+# Development & publish
+
+Building locally requires [Docker](https://www.docker.com/).
+
+```bash
+#install dependencies
+docker run --rm -v "$PWD":/app -w /app node:20 npm install 
+#build
+docker run --rm -v "$PWD":/app -w /app node:20 npm run all
+```
+
+then push to some branch and create Pull request.
+After merging the PR, switch back to main and update tags
+
+```bash
+git fetch origin
+git switch main
+git pull
+git push --delete origin v1
+git tag -f v1
+git push origin --tags 
+```
