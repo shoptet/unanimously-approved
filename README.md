@@ -62,9 +62,9 @@ Building locally requires [Docker](https://www.docker.com/).
 
 ```bash
 #install dependencies
-docker run --rm -v "$PWD":/app -w /app node:20 npm install 
+docker run --rm -v "$PWD":/app -w /app node:20-slim npm install 
 #build
-docker run --rm -v "$PWD":/app -w /app node:20 npm run all
+docker run --rm -v "$PWD":/app -w /app node:20-slim npm run all
 ```
 
 then push to some branch and create Pull request.
