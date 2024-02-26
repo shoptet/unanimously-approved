@@ -7,7 +7,6 @@ export async function approved(token: string): Promise<boolean> {
     github.context.eventName === 'pull_request'
       ? (github.context.payload as PullRequestEvent)
       : (github.context.payload as PullRequestReviewEvent)
-  core.info(github.context.payload)
 
   core.debug(`PR#${pr.number}`)
   core.debug(`requested reviewers: ${pr.requested_reviewers.length + pr.requested_teams.length}`)
