@@ -42,6 +42,8 @@ export async function approved(token: string): Promise<boolean> {
     })
 
   for (const review of latestReviews) {
+    core.debug(`${review.state}`)
+    core.debug(`${review}`)
     core.debug(`${review.user?.login} is ${review.state.toLowerCase()}.`)
   }
 
