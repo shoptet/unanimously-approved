@@ -27,7 +27,7 @@ export async function approved(token: string): Promise<boolean> {
 
   if (reviews.length === 0) {
     core.info('There is no reviewers.')
-    return false
+    return true
   }
 
   const latestReviews = reviews
