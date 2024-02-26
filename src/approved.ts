@@ -24,7 +24,6 @@ export async function approved(token: string): Promise<boolean> {
     per_page: 100 // NOTE: seems not over 100
   })
 
-  core.debug(${reviews})
   core.debug(`reviews: ${reviews.length}`)
 
   if (reviews.length === 0) {
@@ -36,6 +35,7 @@ export async function approved(token: string): Promise<boolean> {
     .reverse()
     .filter(review => review.user?.id !== pr.user.id)
     .filter(review => review.state.toLowerCase() !== 'commented')
+    .filter(review => review.state.toLowerCase() !== 'dismissed')
     .filter((review, index, array) => {
       // unique
       return array.findIndex(x => review.user?.id === x.user?.id) === index
