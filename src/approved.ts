@@ -24,6 +24,7 @@ export async function approved(token: string): Promise<boolean> {
     per_page: 100 // NOTE: seems not over 100
   })
 
+  core.debug(${reviews})
   core.debug(`reviews: ${reviews.length}`)
 
   if (reviews.length === 0) {
