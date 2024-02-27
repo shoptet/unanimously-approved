@@ -60,17 +60,20 @@ function approved(token) {
         core.debug(`reviews: ${reviews.length}`);
         if (reviews.length === 0) {
             core.info('There is no reviewers.');
-            return false;
+            return true;
         }
         const latestReviews = reviews
             .reverse()
             .filter(review => { var _a; return ((_a = review.user) === null || _a === void 0 ? void 0 : _a.id) !== pr.user.id; })
             .filter(review => review.state.toLowerCase() !== 'commented')
+            .filter(review => review.state.toLowerCase() !== 'dismissed')
             .filter((review, index, array) => {
             // unique
             return array.findIndex(x => { var _a, _b; return ((_a = review.user) === null || _a === void 0 ? void 0 : _a.id) === ((_b = x.user) === null || _b === void 0 ? void 0 : _b.id); }) === index;
         });
         for (const review of latestReviews) {
+            core.debug(`${review.state}`);
+            core.debug(`${review}`);
             core.debug(`${(_a = review.user) === null || _a === void 0 ? void 0 : _a.login} is ${review.state.toLowerCase()}.`);
         }
         if (!latestReviews.every(review => review.state.toLowerCase() === 'approved')) {
