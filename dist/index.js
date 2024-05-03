@@ -60,7 +60,7 @@ function approved(token) {
         core.debug(`reviews: ${reviews.length}`);
         if (reviews.length === 0) {
             core.info('There is no reviewers.');
-            return false;
+            return true;
         }
         const latestReviews = reviews
             .reverse()
